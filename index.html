@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>C++ Answer Bank</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1, h2 { color: #2c3e50; }
+    pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+button {
+  margin-top: 6px;
+  margin-bottom: 20px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  background-size: 300% 300%;
+  transition: background-position 0.5s ease, background 0.5s ease;
+}
+
+button:hover {
+  background-image: linear-gradient(
+    45deg,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet,
+    red
+  );
+  animation: rainbow 3s linear infinite;
+  background-size: 400% 400%;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <h1>C++ Answer Bank by TGNAS</h1>
+
+  <h2>Programs using Objects and Classes</h2>
+  <p>1(a).Define a class named student which includes id, name as data 
+    member s and insert(),display()  as the member function to insert 
+    the id and name and display the same respectively. </p>
+  <pre id="1a">
+    #include &lt;iostream&gt; 
+        using namespace std; 
+         
+        class Student { 
+        private: 
+            int id; 
+            string name; 
+         
+        public: 
+            void insert(int student_id, string student_name) { 
+                id = student_id; 
+                name = student_name; 
+            } 
+         
+            void display() { 
+                cout << "Student ID: " << id << endl; 
+                cout << "Student Name: " << name << endl; 
+            } 
+        }; 
+         
+        int main() { 
+            Student s1; 
+            s1.insert(123456789, "TGNAS"); 
+            s1.display(); 
+            return 0; 
+        }</pre>
+  <button onclick="copyCode('1a')">Copy Code</button>
+  <p>1(b)Define a class to represent a bank account which include 
+    the following members as data members (a) name of the 
+    depositor (b) account number(c) amount and member 
+    function are (a) withdrawl ()(b) deposit () (c) display 
+    balance().</p>
+
+  <pre id="1b">
+
+    #include &lt;iostream&gt;
+        using namespace std; 
+         
+        class BankAccount { 
+        private: 
+            string name; 
+            int accountNumber; 
+            double balance; 
+         
+        public: 
+            // Constructor to initialize values 
+            BankAccount(string acc_name, int acc_number, double initial_balance = 0) { 
+                name = acc_name; 
+                accountNumber = acc_number; 
+                balance = initial_balance; 
+            } 
+         
+            void deposit(double amount) { 
+                balance += amount; 
+                cout << "Amount Deposited: $" << amount << endl; 
+            } 
+         
+            void withdrawal(double amount) { 
+                if (amount > balance) { 
+                    cout << "Insufficient balance!" << endl; 
+                } else { 
+                    balance -= amount; 
+                    cout << "Amount Withdrawn: $" << amount << endl; 
+                } 
+            } 
+         
+            void displayBalance() { 
+                cout << "Account Holder: " << name << endl; 
+                cout << "Account Number: " << accountNumber << endl; 
+                cout << "Current Balance: $" << balance << endl; 
+            } 
+        }; 
+         
+        int main() { 
+            // Creating an object and demonstrating functionality 
+            BankAccount account("TGNAS”, 123456789, 1000); 
+             
+            account.displayBalance(); 
+            account.deposit(500); 
+            account.withdrawal(200); 
+            account.displayBalance(); 
+         
+            return 0; 
+        }</pre>
+  <button onclick="copyCode('1b')">Copy Code</button>
+
+  <h2>Programs using Constructors and Destructors</h2>
+
+<p>2(a). Product Inventory Management<br>
+Write a C++ program to manage a product inventory. Each product has a name and a quantity. You want to use a constructor to initialize these attributes. When a product is out of stock (quantity reaches zero), a destructor should print a message.</p>
+
+<pre id="2a">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Product {
+    string name;
+    int quantity;
+
+public:
+    // Parameterized Constructor
+    Product(string pname, int qty) {
+        name = pname;
+        quantity = qty;
+    }
+
+    // Function to sell the product
+    void sellProduct(int qty) {
+        if (qty &lt;= quantity) {
+            quantity -= qty;
+            cout &lt;&lt; qty &lt;&lt; " units of " &lt;&lt; name &lt;&lt; " sold. Remaining: " &lt;&lt; quantity &lt;&lt; endl;
+        } else {
+            cout &lt;&lt; "Not enough stock for " &lt;&lt; name &lt;&lt; "!" &lt;&lt; endl;
+        }
+    }
+
+    // Destructor to notify when stock is empty
+    ~Product() {
+        if (quantity == 0) {
+            cout &lt;&lt; "Product " &lt;&lt; name &lt;&lt; " is out of stock!" &lt;&lt; endl;
+        }
+    }
+};
+
+int main() {
+    Product p1("Laptop", 5);
+    p1.sellProduct(3);
+    p1.sellProduct(2); // Stock reaches zero
+    return 0;
+}
+</pre>
+<button onclick="copyCode('2a')">Copy Code</button>
+
+<p>2(b). Calculate Area using Constructors<br>
+Write a C++ program to calculate the area of triangle, rectangle and circle by using the concepts of default, parameterized and copy constructor. Finally use destructor to delete the objects created.</p>
+
+<pre id="2b">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class Shape {
+    double length, breadth, radius, base, height;
+
+public:
+    // Default Constructor
+    Shape() {
+        length = breadth = radius = base = height = 0;
+        cout &lt;&lt; "Default constructor called!" &lt;&lt; endl;
+    }
+
+    // Parameterized Constructor (Rectangle & Triangle)
+    Shape(double l, double b) {
+        length = l;
+        breadth = b;
+    }
+
+    Shape(double r) {  // Overloaded constructor for Circle
+        radius = r;
+    }
+
+    // Copy Constructor
+    Shape(const Shape &s) {
+        length = s.length;
+        breadth = s.breadth;
+        radius = s.radius;
+        base = s.base;
+        height = s.height;
+    }
+
+    // Function to calculate area of rectangle
+    double areaRectangle() {
+        return length * breadth;
+    }
+
+    // Function to calculate area of triangle
+    double areaTriangle() {
+        return 0.5 * length * breadth;
+    }
+
+    // Function to calculate area of circle
+    double areaCircle() {
+        return M_PI * radius * radius;
+    }
+
+    // Destructor
+    ~Shape() {
+        cout &lt;&lt; "Destructor called! Object deleted." &lt;&lt; endl;
+    }
+};
+
+int main() {
+    // Using Parameterized Constructor
+    Shape rect(10, 5);
+    cout &lt;&lt; "Rectangle Area: " &lt;&lt; rect.areaRectangle() &lt;&lt; endl;
+
+    Shape tri(6, 8);
+    cout &lt;&lt; "Triangle Area: " &lt;&lt; tri.areaTriangle() &lt;&lt; endl;
+
+    Shape circ(7);
+    cout &lt;&lt; "Circle Area: " &lt;&lt; circ.areaCircle() &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('2b')">Copy Code</button>
+
+<h2>Programs using Friend Function & Friend Class</h2>
+
+<p>3(a). Calculate and Print the Length of a Box Using Friend Function<br>
+Write a C++ program to calculate and print the length of a box using friend function.</p>
+
+<pre id="3a">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Box {
+private:
+    double length;
+
+public:
+    Box(double l) { length = l; } // Constructor to initialize length
+
+    // Friend function declaration
+    friend void printLength(Box b);
+};
+
+// Friend function definition
+void printLength(Box b) {
+    cout &lt;&lt; "Length of the box: " &lt;&lt; b.length &lt;&lt; endl;
+}
+
+int main() {
+    Box b(10.5); // Create an object of Box with length 10.5
+    printLength(b); // Call friend function
+    return 0;
+}
+</pre>
+<button onclick="copyCode('3a')">Copy Code</button>
+
+<p>3(b). Add Members of Two Different Classes Using Friend Function<br>
+Write a C++ Program to add members of two different classes using friend functions.</p>
+
+<pre id="3b">
+#include &lt;iostream&gt;
+using namespace std;
+
+class ClassB; // Forward declaration
+
+class ClassA {
+private:
+    int valueA;
+
+public:
+    ClassA(int a) { valueA = a; } // Constructor
+    friend int addValues(ClassA, ClassB); // Friend function declaration
+};
+
+class ClassB {
+private:
+    int valueB;
+
+public:
+    ClassB(int b) { valueB = b; } // Constructor
+    friend int addValues(ClassA, ClassB); // Friend function declaration
+};
+
+// Friend function definition
+int addValues(ClassA objA, ClassB objB) {
+    return objA.valueA + objB.valueB;
+}
+
+int main() {
+    ClassA objA(10); // Create an object of ClassA
+    ClassB objB(20); // Create an object of ClassB
+    cout &lt;&lt; "Sum of values: " &lt;&lt; addValues(objA, objB) &lt;&lt; endl;
+    return 0;
+}
+</pre>
+<button onclick="copyCode('3b')">Copy Code</button>
+
+<p>3(c). Demonstrate accessing private members of two different classes using a Friend Class<br>
+Write a C++ program to demonstrate the members of two different classes using friend class.</p>
+
+<pre id="3c">
+#include &lt;iostream&gt;
+using namespace std;
+
+class ClassB; // Forward declaration
+
+class ClassA {
+private:
+    int valueA;
+
+public:
+    ClassA(int a) { valueA = a; } // Constructor
+
+    // Declare ClassB as a friend class
+    friend class ClassB;
+};
+
+class ClassB {
+private:
+    int valueB;
+
+public:
+    ClassB(int b) { valueB = b; } // Constructor
+
+    // Function to display private members of both classes
+    void showValues(ClassA objA) {
+        cout &lt;&lt; "Value from ClassA: " &lt;&lt; objA.valueA &lt;&lt; endl;
+        cout &lt;&lt; "Value from ClassB: " &lt;&lt; valueB &lt;&lt; endl;
+    }
+};
+
+int main() {
+    ClassA objA(10);  // Create an object of ClassA
+    ClassB objB(20);  // Create an object of ClassB
+    objB.showValues(objA); // Access private members of ClassA using ClassB
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('3c')">Copy Code</button>
+
+<h2>Programs using Function Overloading</h2>
+
+<p>4(a). Overloading Function area() to Find the Area of Different Solids<br>
+Write a C++ program to overload a function area() that finds the Area of different solids.</p>
+
+<pre id="4a">
+#include &lt;iostream&gt;
+using namespace std;
+
+class AreaCalculator {
+public:
+    // Function to calculate the area of a circle
+    double area(double radius) {
+        return 3.14159 * radius * radius;
+    }
+
+    // Function to calculate the area of a rectangle
+    double area(double length, double breadth) {
+        return length * breadth;
+    }
+
+    // Function to calculate the area of a triangle
+    double area(double base, double height, int) {
+        return 0.5 * base * height;
+    }
+};
+
+int main() {
+    AreaCalculator obj;
+    
+    cout &lt;&lt; "Area of Circle (radius 5): " &lt;&lt; obj.area(5) &lt;&lt; endl;
+    cout &lt;&lt; "Area of Rectangle (5x10): " &lt;&lt; obj.area(5, 10) &lt;&lt; endl;
+    cout &lt;&lt; "Area of Triangle (base 6, height 8): " &lt;&lt; obj.area(6, 8, 0) &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('4a')">Copy Code</button>
+
+<p>4(b). Overloading Function to Swap Two Variables<br>
+Write a C++ program to define three overloaded functions to Swap Two Variables.</p>
+
+<pre id="4b">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Swapper {
+public:
+    // Function to swap two integers
+    void swapValues(int &a, int &b) {
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+
+    // Function to swap two floating-point numbers
+    void swapValues(float &a, float &b) {
+        float temp = a;
+        a = b;
+        b = temp;
+    }
+
+    // Function to swap two characters
+    void swapValues(char &a, char &b) {
+        char temp = a;
+        a = b;
+        b = temp;
+    }
+};
+
+int main() {
+    Swapper obj;
+    int x = 10, y = 20;
+    float a = 1.5, b = 2.5;
+    char p = 'A', q = 'B';
+
+    cout &lt;&lt; "Before Swapping: x=" &lt;&lt; x &lt;&lt; ", y=" &lt;&lt; y &lt;&lt; endl;
+    obj.swapValues(x, y);
+    cout &lt;&lt; "After Swapping: x=" &lt;&lt; x &lt;&lt; ", y=" &lt;&lt; y &lt;&lt; endl;
+
+    cout &lt;&lt; "\nBefore Swapping: a=" &lt;&lt; a &lt;&lt; ", b=" &lt;&lt; b &lt;&lt; endl;
+    obj.swapValues(a, b);
+    cout &lt;&lt; "After Swapping: a=" &lt;&lt; a &lt;&lt; ", b=" &lt;&lt; b &lt;&lt; endl;
+
+    cout &lt;&lt; "\nBefore Swapping: p=" &lt;&lt; p &lt;&lt; ", q=" &lt;&lt; q &lt;&lt; endl;
+    obj.swapValues(p, q);
+    cout &lt;&lt; "After Swapping: p=" &lt;&lt; p &lt;&lt; ", q=" &lt;&lt; q &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('4b')">Copy Code</button>
+<h2>Programs to overload unary & binary operators as member function & non-member function</h2>
+
+<p>5(a). Overloading Unary - Operator using Member Function<br>
+Write a C++ program to overload unary - operator using member function.</p>
+
+<pre id="5a">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Number {
+    int num;
+public:
+    Number(int n) : num(n) {}
+
+    // Overloading unary '-' operator using member function
+    Number operator-() {
+        return Number(-num);
+    }
+
+    void display() {
+        cout &lt;&lt; "Number: " &lt;&lt; num &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Number obj(10);
+    cout &lt;&lt; "Original ";
+    obj.display();
+    Number negObj = -obj; // Using overloaded - operator
+    cout &lt;&lt; "Negated ";
+    negObj.display();
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('5a')">Copy Code</button>
+
+<p>5(b). Overloading Unary - Operator using Non-Member Function<br>
+Write a C++ program to overload unary - operator using non-member function.</p>
+
+<pre id="5b">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Number {
+    int num;
+public:
+    Number(int n) : num(n) {}
+
+    void display() {
+        cout &lt;&lt; "Number: " &lt;&lt; num &lt;&lt; endl;
+    }
+
+    // Friend function to overload unary '-' operator
+    friend Number operator-(Number obj);
+};
+
+// Overloading unary '-' operator using non-member function
+Number operator-(Number obj) {
+    return Number(-obj.num);
+}
+
+int main() {
+    Number obj(15);
+    cout &lt;&lt; "Original ";
+    obj.display();
+    Number negObj = -obj; // Using overloaded - operator
+    cout &lt;&lt; "Negated ";
+    negObj.display();
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('5b')">Copy Code</button>
+
+<p>5(c). Overloading Binary + Operator to Add Two Complex Numbers Using Member Function<br>
+Write a C++ program to overload binary + to add two complex numbers using member function.</p>
+
+<pre id="5c">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Complex {
+    int real, imag;
+public:
+    Complex(int r = 0, int i = 0) : real(r), imag(i) {}
+
+    // Overloading binary '+' operator using member function
+    Complex operator+(const Complex &obj) {
+        return Complex(real + obj.real, imag + obj.imag);
+    }
+
+    void display() {
+        cout &lt;&lt; real &lt;&lt; " + " &lt;&lt; imag &lt;&lt; "i" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Complex c1(3, 4), c2(1, 2);
+    cout &lt;&lt; "First Complex Number: ";
+    c1.display();
+    cout &lt;&lt; "Second Complex Number: ";
+    c2.display();
+    Complex sum = c1 + c2; // Using overloaded + operator
+    cout &lt;&lt; "Sum of Complex Numbers: ";
+    sum.display();
+    return 0;
+}
+</pre>
+<button onclick="copyCode('5c')">Copy Code</button>
+
+<p>5(d). Overloading Binary + Operator to Add Two Complex Numbers Using Non-Member Function<br>
+Write a C++ program to overload binary operator + to add two complex numbers using non-member function.</p>
+
+<pre id="5d">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Complex {
+    int real, imag;
+public:
+    Complex(int r = 0, int i = 0) : real(r), imag(i) {}
+
+    void display() {
+        cout &lt;&lt; real &lt;&lt; " + " &lt;&lt; imag &lt;&lt; "i" &lt;&lt; endl;
+    }
+
+    // Friend function to overload binary '+' operator
+    friend Complex operator+(const Complex &c1, const Complex &c2);
+};
+
+// Overloading binary '+' operator using non-member function
+Complex operator+(const Complex &c1, const Complex &c2) {
+    return Complex(c1.real + c2.real, c1.imag + c2.imag);
+}
+
+int main() {
+    Complex c1(5, 6), c2(2, 3);
+    cout &lt;&lt; "First Complex Number: ";
+    c1.display();
+    cout &lt;&lt; "Second Complex Number: ";
+    c2.display();
+    Complex sum = c1 + c2; // Using overloaded + operator
+    cout &lt;&lt; "Sum of Complex Numbers: ";
+    sum.display();
+    return 0;
+}
+</pre>
+<button onclick="copyCode('5d')">Copy Code</button>
+
+<h2>Programs using types of inheritance</h2>
+
+<p>6(a). Multi-Level Inheritance for Student Percentage Calculation<br>
+Write a C++ program to calculate the percentage of a student using multi-level inheritance. Accept the marks of three subjects in base class. A class will derive from the above mentioned class which includes a function to find the total marks obtained and another class derived from this class which calculates and displays the percentage of student.</p>
+
+<pre id="6a">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Base Class: Student (Stores marks of 3 subjects)
+class Student {
+protected:
+    float mark1, mark2, mark3;
+
+public:
+    void getMarks() {
+        cout &lt;&lt; "Enter marks for 3 subjects: ";
+        cin &gt;&gt; mark1 &gt;&gt; mark2 &gt;&gt; mark3;
+    }
+};
+
+// Derived Class: Marks (Calculates total marks)
+class Marks : public Student {
+protected:
+    float total;
+
+public:
+    void calculateTotal() {
+        total = mark1 + mark2 + mark3;
+    }
+};
+
+// Derived Class: Result (Calculates and displays percentage)
+class Result : public Marks {
+public:
+    void displayPercentage() {
+        float percentage = (total / 300) * 100;
+        cout &lt;&lt; "Total Marks: " &lt;&lt; total &lt;&lt; endl;
+        cout &lt;&lt; "Percentage: " &lt;&lt; percentage &lt;&lt; "%" &lt;&lt; endl;
+    }
+};
+
+// Main function
+int main() {
+    Result student;
+    student.getMarks();
+    student.calculateTotal();
+    student.displayPercentage();
+    return 0;
+}
+</pre>
+<button onclick="copyCode('6a')">Copy Code</button>
+
+<p>6(b). Multiple Inheritance with Employee Information<br>
+Write a C++ program to implement the following and give a brief description about the identified inheritance:</p>
+
+<pre id="6b">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Base Class: BasicInfo
+class BasicInfo {
+protected:
+    string name;
+    int age;
+
+public:
+    void getBasicInfo() {
+        cout &lt;&lt; "Enter Employee Name: ";
+        cin &gt;&gt; name;
+        cout &lt;&lt; "Enter Employee Age: ";
+        cin &gt;&gt; age;
+    }
+
+    void displayBasicInfo() {
+        cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; "Age: " &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+// Base Class: DepartmentInfo
+class DepartmentInfo {
+protected:
+    string department, designation;
+
+public:
+    void getDepartmentInfo() {
+        cout &lt;&lt; "Enter Department: ";
+        cin &gt;&gt; department;
+        cout &lt;&lt; "Enter Designation: ";
+        cin &gt;&gt; designation;
+    }
+
+    void displayDepartmentInfo() {
+        cout &lt;&lt; "Department: " &lt;&lt; department &lt;&lt; endl;
+        cout &lt;&lt; "Designation: " &lt;&lt; designation &lt;&lt; endl;
+    }
+};
+
+// Derived Class: Employee (inherits from BasicInfo and DepartmentInfo)
+class Employee : public BasicInfo, public DepartmentInfo {
+public:
+    void displayEmployeeDetails() {
+        cout &lt;&lt; "\n--- Employee Details ---\n";
+        displayBasicInfo();
+        displayDepartmentInfo();
+    }
+};
+
+// Main function
+int main() {
+    Employee emp;
+    emp.getBasicInfo();
+    emp.getDepartmentInfo();
+    emp.displayEmployeeDetails();
+    return 0;
+}
+</pre>
+<button onclick="copyCode('6b')">Copy Code</button>
+
+<p>6(c). Hybrid Inheritance with Grandfather, Father, Mother, and Son Classes<br>
+Write a C++ program for the following scenario - Create four classes: grandfather, father, mother, and son to achieve the combination of multilevel and hierarchical inheritance (as hybrid inheritance). Hint: create functions like house(), land(), gold(), car() in the classes and object for derived class son and access those functions.</p>
+
+<pre id="6c">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Base Class: Grandfather
+class Grandfather {
+public:
+    void house() {
+        cout &lt;&lt; "Grandfather owns a house." &lt;&lt; endl;
+    }
+};
+
+// Derived Class: Father (inherits from Grandfather)
+class Father : public Grandfather {
+public:
+    void land() {
+        cout &lt;&lt; "Father owns agricultural land." &lt;&lt; endl;
+    }
+};
+
+// Another Base Class: Mother
+class Mother {
+public:
+    void gold() {
+        cout &lt;&lt; "Mother has gold jewelry." &lt;&lt; endl;
+    }
+};
+
+// Derived Class: Son (inherits from Father and Mother - Hybrid Inheritance)
+class Son : public Father, public Mother {
+public:
+    void car() {
+        cout &lt;&lt; "Son owns a sports car." &lt;&lt; endl;
+    }
+};
+
+// Main function
+int main() {
+    Son obj;
+    obj.house();
+    obj.land();
+    obj.gold();
+    obj.car();
+    return 0;
+}
+</pre>
+<button onclick="copyCode('6c')">Copy Code</button>
+
+<h2>Programs using virtual functions</h2>
+
+<p>7(a). Shape Class with Virtual Function<br>
+Create a base class shape. Use this class to store two double type values that could be used to compute area of figures. Derive two specific classes called Triangle and Rectangle from the Base shape. Add to the base a member function getdata() to initialize base class data members and another member function display_area() to compute and display the area of figures. Make display_area() a pure virtual function and redefine it in the derived class to suit their requirements.</p>
+
+<pre id="7a">
+#include &lt;iostream&gt;
+using namespace std;
+
+class Shape {
+protected:
+    double dim1, dim2;
+public:
+    void getdata() {
+        cout &lt;&lt; "Enter two dimensions: ";
+        cin &gt;&gt; dim1 &gt;&gt; dim2;
+    }
+    virtual void display_area() = 0; // Pure virtual function
+};
+
+class Triangle : public Shape {
+public:
+    void display_area() override {
+        cout &lt;&lt; "Area of Triangle: " &lt;&lt; (0.5 * dim1 * dim2) &lt;&lt; endl;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void display_area() override {
+        cout &lt;&lt; "Area of Rectangle: " &lt;&lt; (dim1 * dim2) &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Shape* shapePtr;
+    Triangle t;
+    Rectangle r;
+
+    cout &lt;&lt; "Enter dimensions for Triangle: " &lt;&lt; endl;
+    t.getdata();
+    cout &lt;&lt; "Enter dimensions for Rectangle: " &lt;&lt; endl;
+    r.getdata();
+    shapePtr = &t;
+    shapePtr-&gt;display_area();
+    shapePtr = &r;
+    shapePtr-&gt;display_area();
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('7a')">Copy Code</button>
+
+<p>7(b). Media Class with Virtual Function<br>
+Consider an example of a book shop which sells books and video tapes. These two classes are inherited from the base class called Media. The Media class has common data members such as title and publication. The Book class has data members for storing number of pages in a book, and the Tape class has the playing time in a tape. Each class has a display() function that is declared as a pure virtual function in the base class and overridden in the derived classes.</p>
+
+<pre id="7b">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Media {
+protected:
+    string title;
+    string publication;
+public:
+    void getdata() {
+        cout &lt;&lt; "Enter Title: ";
+        cin.ignore();
+        getline(cin, title);
+        cout &lt;&lt; "Enter Publication: ";
+        getline(cin, publication);
+    }
+    virtual void display() = 0; // Pure virtual function
+};
+
+class Book : public Media {
+private:
+    int pages;
+public:
+    void getdata() {
+        Media::getdata();
+        cout &lt;&lt; "Enter Number of Pages: ";
+        cin &gt;&gt; pages;
+    }
+    void display() override {
+        cout &lt;&lt; "Book Title: " &lt;&lt; title &lt;&lt; endl;
+        cout &lt;&lt; "Publication: " &lt;&lt; publication &lt;&lt; endl;
+        cout &lt;&lt; "Pages: " &lt;&lt; pages &lt;&lt; endl;
+    }
+};
+
+class Tape : public Media {
+private:
+    double play_time;
+public:
+    void getdata() {
+        Media::getdata();
+        cout &lt;&lt; "Enter Playing Time (in minutes): ";
+        cin &gt;&gt; play_time;
+    }
+    void display() override {
+        cout &lt;&lt; "Tape Title: " &lt;&lt; title &lt;&lt; endl;
+        cout &lt;&lt; "Publication: " &lt;&lt; publication &lt;&lt; endl;
+        cout &lt;&lt; "Playing Time: " &lt;&lt; play_time &lt;&lt; " minutes" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Media* mediaPtr;
+    Book b;
+    Tape t;
+    cout &lt;&lt; "Enter Book Details: " &lt;&lt; endl;
+    b.getdata();
+    cout &lt;&lt; "Enter Tape Details: " &lt;&lt; endl;
+    t.getdata();
+    mediaPtr = &b;
+    mediaPtr-&gt;display();
+    mediaPtr = &t;
+    mediaPtr-&gt;display();
+    return 0;
+}
+</pre>
+<button onclick="copyCode('7b')">Copy Code</button>
+
+<h2>Programs using Function and Class Templates</h2>
+
+<p><strong>8(a). Swap Two Numbers using Function Template</strong><br>
+Write a C++ program to swap two numbers using function templates.</p>
+
+<pre id="8a">
+#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+void swapValues(T &amp;a, T &amp;b) {
+    T temp = a;
+    a = b;
+    b = temp;
+}
+
+int main() {
+    int x = 10, y = 20;
+    float p = 1.5, q = 2.5;
+
+    cout &lt;&lt; "Before Swapping (int): x = " &lt;&lt; x &lt;&lt; ", y = " &lt;&lt; y &lt;&lt; endl;
+    swapValues(x, y);
+    cout &lt;&lt; "After Swapping (int): x = " &lt;&lt; x &lt;&lt; ", y = " &lt;&lt; y &lt;&lt; endl;
+
+    cout &lt;&lt; "Before Swapping (float): p = " &lt;&lt; p &lt;&lt; ", q = " &lt;&lt; q &lt;&lt; endl;
+    swapValues(p, q);
+    cout &lt;&lt; "After Swapping (float): p = " &lt;&lt; p &lt;&lt; ", q = " &lt;&lt; q &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('8a')">Copy Code</button>
+
+<p><strong>8(b). Find the Largest Number using Function Template</strong><br>
+Write a C++ program to find the largest between two numbers using function templates.</p>
+
+<pre id="8b">
+#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+T findLargest(T a, T b) {
+    return (a &gt; b) ? a : b;
+}
+
+int main() {
+    int x = 15, y = 30;
+    float p = 4.5, q = 3.2;
+
+    cout &lt;&lt; "Largest (int): " &lt;&lt; findLargest(x, y) &lt;&lt; endl;
+    cout &lt;&lt; "Largest (float): " &lt;&lt; findLargest(p, q) &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('8b')">Copy Code</button>
+
+<p><strong>8(c). Simple Calculator using Class Template</strong><br>
+Write a C++ program to perform simple calculator operations using class templates.</p>
+
+<pre id="8c">
+#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+class Calculator {
+    T a, b;
+public:
+    Calculator(T x, T y) {
+        a = x;
+        b = y;
+    }
+    T add() { return a + b; }
+    T subtract() { return a - b; }
+    T multiply() { return a * b; }
+    T divide() { return (b != 0) ? a / b : 0; }
+};
+
+int main() {
+    Calculator&lt;int&gt; calc1(10, 5);
+    cout &lt;&lt; "Integer Operations:" &lt;&lt; endl;
+    cout &lt;&lt; "Addition: " &lt;&lt; calc1.add() &lt;&lt; endl;
+    cout &lt;&lt; "Subtraction: " &lt;&lt; calc1.subtract() &lt;&lt; endl;
+    cout &lt;&lt; "Multiplication: " &lt;&lt; calc1.multiply() &lt;&lt; endl;
+    cout &lt;&lt; "Division: " &lt;&lt; calc1.divide() &lt;&lt; endl;
+
+    Calculator&lt;float&gt; calc2(5.5, 2.0);
+    cout &lt;&lt; "\nFloat Operations:" &lt;&lt; endl;
+    cout &lt;&lt; "Addition: " &lt;&lt; calc2.add() &lt;&lt; endl;
+    cout &lt;&lt; "Subtraction: " &lt;&lt; calc2.subtract() &lt;&lt; endl;
+    cout &lt;&lt; "Multiplication: " &lt;&lt; calc2.multiply() &lt;&lt; endl;
+    cout &lt;&lt; "Division: " &lt;&lt; calc2.divide() &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('8c')">Copy Code</button>
+
+<h2>Programs using Files and Streams</h2>
+
+<p><strong>9(a). Replace Vowels in a File with '#'</strong><br>
+Write a C++ program that opens a file, reads its contents, and changes any vowels it finds to a '#' symbol and finally closes the file.</p>
+
+<pre id="9a">
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;cctype&gt;
+using namespace std;
+
+bool isVowel(char ch) {
+    ch = tolower(ch);
+    return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
+}
+
+int main() {
+    ofstream file("sample.txt");
+    file &lt;&lt; "This is a sample file with some vowels.";
+    file.close();
+
+    ifstream inFile("sample.txt");
+    ofstream tempFile("temp.txt");
+
+    char ch;
+    while (inFile.get(ch)) {
+        if (isVowel(ch))
+            tempFile.put('#');
+        else
+            tempFile.put(ch);
+    }
+
+    inFile.close();
+    tempFile.close();
+
+    // Replace original with modified file
+    remove("sample.txt");
+    rename("temp.txt", "sample.txt");
+
+    // Display modified content
+    ifstream modifiedFile("sample.txt");
+    cout &lt;&lt; "Modified File Content:\n";
+    while (modifiedFile.get(ch)) {
+        cout &lt;&lt; ch;
+    }
+    modifiedFile.close();
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('9a')">Copy Code</button>
+
+<p><strong>9(b). Write and Read Name & Age to/from File</strong><br>
+Write a C++ program to open a file, get name and age of a person from the user and write to a file. Finally, read the contents written in the file and print as output.</p>
+
+<pre id="9b">
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main() {
+    string name;
+    int age;
+
+    cout &lt;&lt; "Enter your name: ";
+    getline(cin, name);
+
+    cout &lt;&lt; "Enter your age: ";
+    cin &gt;&gt; age;
+
+    ofstream outFile("info.txt");
+    outFile &lt;&lt; name &lt;&lt; endl &lt;&lt; age;
+    outFile.close();
+
+    ifstream inFile("info.txt");
+    string readName;
+    int readAge;
+
+    getline(inFile, readName);
+    inFile &gt;&gt; readAge;
+    inFile.close();
+
+    cout &lt;&lt; "\nData from file:\n";
+    cout &lt;&lt; "Name: " &lt;&lt; readName &lt;&lt; endl;
+    cout &lt;&lt; "Age: " &lt;&lt; readAge &lt;&lt; endl;
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('9b')">Copy Code</button>
+
+<h2>Programs using Exception Handling</h2>
+
+<p><strong>10(a). Array Out of Bound Error Handling using Multiple Catch Blocks</strong><br>
+Write a C++ program to implement array out of bound error handling using multiple catch blocks.</p>
+
+<pre id="10a">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int arr[5] = {10, 20, 30, 40, 50};
+    int index;
+    cout &lt;&lt; "Enter index to access (0-4): ";
+    cin &gt;&gt; index;
+
+    try {
+        if (index &lt; 0)
+            throw "Negative index exception!";
+        else if (index &gt;= 5)
+            throw index;  // throwing int
+        else
+            cout &lt;&lt; "Value at index " &lt;&lt; index &lt;&lt; " is " &lt;&lt; arr[index] &lt;&lt; endl;
+    }
+    catch (const char* msg) {
+        cout &lt;&lt; "Error: " &lt;&lt; msg &lt;&lt; endl;
+    }
+    catch (int i) {
+        cout &lt;&lt; "Error: Index " &lt;&lt; i &lt;&lt; " is out of bounds!" &lt;&lt; endl;
+    }
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('10a')">Copy Code</button>
+
+<p><strong>10(b). Divide by Zero Exception Handling using Try, Catch and Throw</strong><br>
+Write a C++ program to detect and throw an exception if the condition "divide by zero" occurs using appropriate try, catch and throw blocks.</p>
+
+<pre id="10b">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int num, denom;
+    cout &lt;&lt; "Enter numerator: ";
+    cin &gt;&gt; num;
+    cout &lt;&lt; "Enter denominator: ";
+    cin &gt;&gt; denom;
+
+    try {
+        if (denom == 0)
+            throw "Division by zero is not allowed!";
+        float result = static_cast&lt;float&gt;(num) / denom;
+        cout &lt;&lt; "Result = " &lt;&lt; result &lt;&lt; endl;
+    }
+    catch (const char* msg) {
+        cout &lt;&lt; "Error: " &lt;&lt; msg &lt;&lt; endl;
+    }
+
+    return 0;
+}
+</pre>
+<button onclick="copyCode('10b')">Copy Code</button>
+
+
+  <script>
+    function copyCode(id) {
+      const code = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Code copied!");
+      });
+    }
+  </script>
+</body>
+</html>
